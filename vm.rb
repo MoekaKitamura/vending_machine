@@ -19,7 +19,7 @@ class VendingMachine
   # （自動販売機に投入された金額をインスタンス変数の @slot_money に代入する）
   def initialize #initializeメソッドは自動で適用される！！！！！！引数を期待していないコンストラクタ
     # 最初の自動販売機に入っている金額は0円
-    @slot_money = 0
+    @slot_money = 3
   end
   # 投入金額の総計を取得できる。
   def current_slot_money
@@ -43,3 +43,5 @@ class VendingMachine
     @slot_money = 0
   end
 end
+
+@caaa = "q"
