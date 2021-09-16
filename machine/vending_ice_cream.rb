@@ -1,12 +1,10 @@
-require "./vm_original"
-require "./special_buy_system_module"
-require "./item"
+require "./machine/vm_original"
+require "./machine/special_buy_system_module"
+require "./machine/item"
 
 class IceCreamVendingMachine < VendingMachineOriginal
   def initialize
     super
-    @previous = nil
-    @flag = []
     @product = IceCream.new
     info_ice_cream
   end

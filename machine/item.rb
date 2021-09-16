@@ -14,7 +14,7 @@ class IceCream
     @strawberry = {price:350, name:'strawberry', stock:5}
     @green_tea = {price:500, name:'green_tea', stock:1}
     @cookie_cream = {price: 400, name: "cookie&cream", stock: 4}
-    @chocolate_mint = {price: 300, name: "chocolate&mint", stock: 1}
+    @chocolate_mint = {price: 300, name: "chocolate&mint", stock: 5}
   end
 end
 
