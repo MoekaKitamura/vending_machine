@@ -32,7 +32,6 @@ class DrinkVendingMachine < VendingMachineOriginal
   def buyable?(drink)
     begin
       drink_choice = @product.send(drink)
-      binding.irb
       if @slot_money >= drink_choice[:price] && drink_choice[:stock] > 0
         puts "あなたは#{drink_choice[:name]}が買えます！！！今すぐ飲みましょう！！XD"
       else 
