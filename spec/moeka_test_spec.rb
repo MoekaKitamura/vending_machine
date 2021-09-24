@@ -69,3 +69,62 @@ RSpec.describe DrinkVendingMachine do
     end
   end
 end
+RSpec.describe DrinkVendingMachine do 
+  let(:vm){DrinkVendingMachine.new}
+  describe "#buyable_list" do
+    context 'お金を100円入れた時' do
+      it '水が買える' do
+        vm.slot_money(100)
+        expect{vm.buyable_list}.to output("[\"water\"]が買えます\n").to_stdout
+      end
+    end
+    context 'お金を200円入れた時' do
+      it '全ての商品が買える' do
+        2.times {vm.slot_money(100)}
+        expect{vm.buyable_list}.to output("[\"coke\", \"redbull\", \"water\"]が買えます\n").to_stdout
+      end
+    end
+    context 'コーラの在庫が無くなった時' do
+      it 'コーラが買えない' do
+        2.times {vm.slot_money(100)}
+        5.times {vm.item_discard('coke')}
+        expect{vm.buyable_list}.to output("[\"redbull\", \"water\"]が買えます\n").to_stdout
+      end
+    end
+  end
+  describe "#buyable?(drink)" do
+    context 'お金も在庫も十分な時' do
+      it 'コーラが買える' do
+        vm.slot_money(1000)
+        expect{vm.buyable?('coke')}.to output("あなたはcokeが買えます！！！今すぐ飲みましょう！！XD\n").to_stdout
+      end
+    end
+    context 'お金が不十分な時' do
+      it 'コーラが買えない' do
+        vm.slot_money(100)
+        expect{vm.buyable?('coke')}.to output("ごめんなさい、cokeは買えません・・・X(\n[\"water\"]が買えます\n").to_stdout
+      end
+    end
+    context '在庫が不十分な時' do
+      it 'コーラが買えない' do
+        vm.slot_money(1000)
+        5.times {vm.item_discard('coke')}
+        expect{vm.buyable?('coke')}.to output("ごめんなさい、cokeは買えません・・・X(\n[\"redbull\", \"water\"]が買えます\n").to_stdout
+      end
+    end
+    context '間違った商品を買おうとした時' do
+      it '商品がないことを知らせる' do
+        vm.slot_money(1000)
+        expect{vm.buyable?('cok')}.to output("そんな商品はありません！！！\n").to_stdout
+      end
+    end
+  end
+end
+def buyable_list
+  @lists = []
+  @lists << "coke" if @slot_money >= @product[:coke][:price] && @product[:coke][:stock] > 0
+  @lists << "redbull" if @slot_money >= @product[:redbull][:price] && @product[:redbull][:stock] > 0
+  @lists << "water" if @slot_money >= @product[:water][:price] && @product[:water][:stock] > 0
+  puts "買えるものはありません" if @lists.empty?
+  puts "#{@lists}が買えます" unless @lists.empty?
+end
