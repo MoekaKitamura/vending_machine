@@ -52,7 +52,6 @@ class VendingMachineOriginal
     begin
       # send 専用
       item_choice = @product.send(item)
-      binding.irb
       # to_sym_vm 専用
       # item_choice = @product[item.to_sym]
       if @slot_money >= item_choice[:price] && item_choice[:stock] > 0

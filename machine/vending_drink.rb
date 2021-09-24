@@ -22,11 +22,8 @@ class DrinkVendingMachine < VendingMachineOriginal
     @lists << "coke" if @slot_money >= @product.coke[:price] && @product.coke[:stock] > 0
     @lists << "redbull" if @slot_money >= @product.redbull[:price] && @product.redbull[:stock] > 0
     @lists << "water" if @slot_money >= @product.water[:price] && @product.water[:stock] > 0
-    if @lists.empty?
-      puts "買えるものはありません"
-    else
-      puts "#{@lists}が買えます"
-    end
+    puts "買えるものはありません" if @lists.empty?
+    puts "#{@lists}が買えます" unless @lists.empty?
   end
 
   def buyable?(drink)
