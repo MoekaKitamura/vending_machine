@@ -6,29 +6,30 @@ class DrinkVendingMachine < VendingMachineOriginal
   # include SpecialBuySystem
   def initialize
     super
-    @product = Drink.new
+    @products = Drink.new
     info_drink
   end
-  
+
   def info_drink
     puts "＼こちらの中からお選びください！！🥤／"
-    puts "#{@product.coke[:name]}は#{@product.coke[:price]}円です"
-    puts "#{@product.water[:name]}は#{@product.water[:price]}円です"
-    puts "#{@product.redbull[:name]}は#{@product.redbull[:price]}円です"
+    @product = {coke: @products.coke, water: @products.water, redbull: @products.redbull}
+    puts "#{@product[:coke][:name]}は#{@product[:coke][:price]}円です"
+    puts "#{@product[:water][:name]}は#{@product[:water][:price]}円です"
+    puts "#{@product[:redbull][:name]}は#{@product[:redbull][:price]}円です"
   end
 
   def buyable_list
     @lists = []
-    @lists << "coke" if @slot_money >= @product.coke[:price] && @product.coke[:stock] > 0
-    @lists << "redbull" if @slot_money >= @product.redbull[:price] && @product.redbull[:stock] > 0
-    @lists << "water" if @slot_money >= @product.water[:price] && @product.water[:stock] > 0
+    @lists << "coke" if @slot_money >= @product[:coke][:price] && @product[:coke][:stock] > 0
+    @lists << "redbull" if @slot_money >= @product[:redbull][:price] && @product[:redbull][:stock] > 0
+    @lists << "water" if @slot_money >= @product[:water][:price] && @product[:water][:stock] > 0
     puts "買えるものはありません" if @lists.empty?
     puts "#{@lists}が買えます" unless @lists.empty?
   end
 
   def buyable?(drink)
     begin
-      drink_choice = @product.send(drink)
+      drink_choice = @product[drink.to_sym]
       if @slot_money >= drink_choice[:price] && drink_choice[:stock] > 0
         puts "あなたは#{drink_choice[:name]}が買えます！！！今すぐ飲みましょう！！XD"
       else 

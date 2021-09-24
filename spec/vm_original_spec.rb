@@ -38,23 +38,20 @@ RSpec.describe VendingMachineOriginal do
   end
   describe "return_money 機能" do
     context "return_money メソッドを実行したとき" do
-      it "@slot_money 0 になる" do
-        test_origin = origin
-        test_origin.slot_money(100)
-        test_origin.return_money
-        expect(0).to eq test_origin.current_slot_money
+      it "@slot_money が 0 になる" do
+        origin.slot_money(100)
+        origin.return_money
+        expect(0).to eq origin.current_slot_money
       end
     end
   end
   describe "item_charge 機能" do
     context "item_charge メソッドを実行したとき" do
       it "引数の在庫が補充される" do
-        test_origin = origin
-        test_origin.slot_money(1000)
-        test_origin.item_charge("coke")
-        5.times {test_origin.buy("coke")}
-        expect{ test_origin.buyable_list}.to output("[\"coke\", \"redbull\", \"water\"]が買えます\n").to_stdout
-        
+        origin.slot_money(1000)
+        origin.item_charge("coke")
+        5.times {origin.buy("coke")}
+        expect{ origin.buyable_list}.to output("[\"coke\", \"redbull\", \"water\"]が買えます\n").to_stdout
       end
     end
     context "間違えた商品を補充しようとしたとき" do
@@ -67,10 +64,9 @@ RSpec.describe VendingMachineOriginal do
   describe "item_discard 機能" do
     context "item_discard メソッドを実行したとき" do
       it "引数の在庫が廃棄される" do
-        test_origin = origin
-        test_origin.slot_money(1000)
-        5.times { test_origin.item_discard("coke")}
-        expect{ test_origin.buy("coke")}.to output("在庫がありません\n").to_stdout
+        origin.slot_money(1000)
+        5.times { origin.item_discard("coke")}
+        expect{ origin.buy("coke")}.to output("在庫がありません\n").to_stdout
       end
     end
     context "間違えた商品を廃棄しようとしたとき" do
@@ -80,4 +76,40 @@ RSpec.describe VendingMachineOriginal do
       end
     end
   end
+  describe "buy 機能" do
+    context "在庫とお金がある場合" do
+      it "Cokeが買える" do
+        origin.slot_money(1000)
+        origin.buy("coke")
+        expect(origin.sales).to eq 120
+        expect(origin.current_slot_money).to eq 880
+      end
+    end
+    context "在庫がない場合" do
+      it "Cokeが買えない" do
+        origin.slot_money(1000)
+        5.times {origin.item_discard("coke")}
+        origin.buy("coke")
+        expect(origin.sales).not_to eq 120
+        expect(origin.current_slot_money).to eq 1000
+      end
+    end
+    context "お金がない場合" do
+      it "Cokeが買えない" do
+        origin.buy("coke")
+        expect(origin.sales).to eq 0
+      end
+    end
+    context "存在しない商品を買おうとしたとき" do
+      it "Cokeが買えない" do
+        origin.slot_money(1000)
+        origin.buy("cok")
+        expect(origin.sales).to eq 0
+        expect(origin.current_slot_money).to eq 1000
+      end
+    end
+  end
 end
+
+
+

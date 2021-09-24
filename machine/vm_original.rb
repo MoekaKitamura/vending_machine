@@ -27,9 +27,9 @@ class VendingMachineOriginal
   def item_charge(item)
     begin
       # send 専用
-      charge_item = @product.send(item)
+      # charge_item = @product.send(item)
       # to_sym_vm 専用
-      # charge_item = @product[item.to_sym]
+      charge_item = @product[item.to_sym]
       charge_item[:stock] += 1
     rescue
       puts "正しい商品をいれて下さい"
@@ -39,9 +39,9 @@ class VendingMachineOriginal
   def item_discard(item)
     begin
       # send 専用
-      discard_item = @product.send(item)
+      # discard_item = @product.send(item)
       # to_sym_vm 専用
-      # discard_item = @product[item.to_sym]
+      discard_item = @product[item.to_sym]
       discard_item[:stock] -= 1
     rescue
       puts "正しい商品を選んで下さい"
@@ -51,9 +51,9 @@ class VendingMachineOriginal
   def buy(item)
     begin
       # send 専用
-      item_choice = @product.send(item)
+      # item_choice = @product.send(item)
       # to_sym_vm 専用
-      # item_choice = @product[item.to_sym]
+      item_choice = @product[item.to_sym]
       if @slot_money >= item_choice[:price] && item_choice[:stock] > 0
         item_choice[:stock]-=1
         @sales_money += item_choice[:price]

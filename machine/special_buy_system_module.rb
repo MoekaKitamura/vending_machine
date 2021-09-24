@@ -4,9 +4,9 @@ module SpecialBuySystem
   def buy(item)
     begin
       # send 専用
-      item_choice = @product.send(item)
+      # item_choice = @product.send(item)
       # to_sym_vm 専用
-      # item_choice = @product[item.to_sym]
+      item_choice = @product[item.to_sym]
       if @slot_money >= item_choice[:price] && item_choice[:stock] > 0
         if @previous == item
           @flag << item
@@ -33,9 +33,9 @@ module SpecialBuySystem
     rescue
       puts "💣そんな商品はありません。これでも飲みな！！😁"
       # send 専用
-      rand_choice = @product.send(@lists.sample)
+      # rand_choice = @product.send(@lists.sample)
       # to_sym_vm 専用
-      # rand_choice = @product[@lists.sample.to_sym]
+      rand_choice = @product[@lists.sample.to_sym]
       rand_choice[:stock] -= 1
       @sales_money += rand_choice[:price]
       @slot_money -= rand_choice[:price]
