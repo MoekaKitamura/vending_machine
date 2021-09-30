@@ -32,17 +32,7 @@ class IceCreamVendingMachine < VendingMachineOriginal
     end
   end
 
-  def buyable?(ice_cream)
-    begin
-      ice_cream_choice = @product.send(ice_cream)
-      if @slot_money >= ice_cream_choice[:price] && ice_cream_choice[:stock] > 0
-        puts "あなたは#{ice_cream_choice[:name]}が買えます！！！今すぐ食べましょう！！XD"
-      else 
-        puts "ごめんなさい、#{ice_cream_choice[:name]}は買えません・・・X("
-        buyable_list
-      end
-    rescue
-      puts "そんな商品はありません！！！"
-    end
+  def buyable_message(name)
+    "あなたは#{name}が買えます！！！今すぐ食べましょう！！XD"
   end
 end

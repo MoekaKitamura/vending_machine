@@ -8,6 +8,15 @@ class DrinkVendingMachine < VendingMachineOriginal
     super
     @products = Drink.new
     info_drink
+
+    # Item、Stockクラスの初期化例
+    items = [
+      Item.new('coke', 120),
+      Item.new('water', 120),
+      Item.new('redbull', 120),
+    ]
+
+    @stocks = items.map{ |item| StockItem.new(item, 5) }
   end
 
   def info_drink
@@ -25,19 +34,11 @@ class DrinkVendingMachine < VendingMachineOriginal
     @lists << "water" if @slot_money >= @product[:water][:price] && @product[:water][:stock] > 0
     puts "買えるものはありません" if @lists.empty?
     puts "#{@lists}が買えます" unless @lists.empty?
+
+    @lists
   end
 
-  def buyable?(drink)
-    begin
-      drink_choice = @product[drink.to_sym]
-      if @slot_money >= drink_choice[:price] && drink_choice[:stock] > 0
-        puts "あなたは#{drink_choice[:name]}が買えます！！！今すぐ飲みましょう！！XD"
-      else 
-        puts "ごめんなさい、#{drink_choice[:name]}は買えません・・・X("
-        buyable_list
-      end
-    rescue
-      puts "そんな商品はありません！！！"
-    end
+  def buyable_message(name)
+    "あなたは#{name}が買えます！！！今すぐ飲みましょう！！XD"
   end
 end

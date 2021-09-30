@@ -72,4 +72,39 @@ class VendingMachineOriginal
       puts "そんな商品はありません！！！"
     end
   end
+
+  def find_by_name(name)
+    @stocks.find{ |stock| stock.item.name == name }
+  end
+
+  def buyable?(drink)
+    begin
+      drink_choice = @product[drink.to_sym]
+      if @slot_money >= drink_choice[:price] && drink_choice[:stock] > 0
+        puts "あなたは#{drink_choice[:name]}が買えます！！！今すぐ飲みましょう！！XD"
+      else 
+        puts "ごめんなさい、#{drink_choice[:name]}は買えません・・・X("
+        buyable_list
+      end
+    rescue
+      puts "そんな商品はありません！！！"
+    end
+  end
+
+  
+  # もしbuyable?の内容でリファクタリングするのであれば、
+  # 以下のように
+  # 「親クラスで定義したメソッドを呼び出し」
+  # 「親クラスで定義したメソッドの結果によって、子クラス独自の表示処理を行う」
+  # という形にできれば見通しが良くなる
+  #
+  # def buyable?(drink)
+  #   aaa = parent_function(drink)
+
+  #   if aaa.present?
+  #     puts '子クラスの成功表示'
+  #   else
+  #     puts '子クラスのエラー表示'
+  #   end
+  # end
 end

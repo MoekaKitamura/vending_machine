@@ -18,5 +18,26 @@ class IceCream
   end
 end
 
+class Item
+  attr_accessor :name, :price
+
+  def initialize(name, price)
+    #...
+  end
+end
+
+class StockItem
+  attr_accessor :item, :stock
+
+  def initialize(item, stock)
+    @item = item
+    @stock = stock
+  end
+
+  def up
+    @stock += 1
+  end
+end
+
 
 
